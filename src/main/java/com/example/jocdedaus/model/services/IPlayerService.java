@@ -2,21 +2,21 @@ package com.example.jocdedaus.model.services;
 
 import java.util.List;
 
+import com.example.jocdedaus.model.domain.Game;
 import com.example.jocdedaus.model.domain.Player;
-import com.example.jocdedaus.model.domain.Tirada;
+import com.example.jocdedaus.model.dto.GameDTO;
 import com.example.jocdedaus.model.dto.PlayerDTO;
-import com.example.jocdedaus.model.dto.TiradaDTO;
 
 //import reactor.core.publisher.Flux;
 
 public interface IPlayerService {
 	void addPlayer(Player player);
 	void updatePlayer(Player player);
-	void addTirada(Long id, Tirada tirada);
+	void addTirada(Long id, Game tirada);
 	void deleteTirades(Long id);
 	List<PlayerDTO> getAllPlayers();
-	List<TiradaDTO> getAllTirades(Long id);
-	Double getPercentatgeMitja();
+	List<GameDTO> getAllTirades(Long id);
+	Double getPercentatgeMitja(Long id);
 	Double getPercentatgeMitjaMitjor();
 	Double getPercentatgeMitjaPitjor();
 	/*

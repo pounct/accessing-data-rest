@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.jocdedaus.model.domain.Player;
+import com.example.jocdedaus.model.dto.GameDTO;
 import com.example.jocdedaus.model.dto.PlayerDTO;
-import com.example.jocdedaus.model.dto.TiradaDTO;
 import com.example.jocdedaus.model.services.PlayerService;
 
 import lombok.AllArgsConstructor;
@@ -48,14 +48,14 @@ public class PlayerController {
 	}
 	
 	@GetMapping("/players/{id}/games")
-	List<TiradaDTO> getAllTirades(Long playerId){
-		return playerService.getAllTirades(playerId);
+	List<GameDTO> getAllTirades(Long playerId){
+		return playerService.getAllGames(playerId);
 		
 	}
 	
 	@GetMapping("/players/ranking")
 	Double getPercentatgeMitja() {
-		return playerService.getPercentatgeMitja();
+		return null ; //playerService.getPercentatgeMitja();
 		
 	}
 	
