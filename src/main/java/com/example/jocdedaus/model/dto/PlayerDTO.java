@@ -1,6 +1,7 @@
 package com.example.jocdedaus.model.dto;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,6 @@ public class PlayerDTO {
 
 	private Long id;
 	private String username;
-	private Date registrationDate;
+	private LocalDate registrationDate;
 	private Float percentatgedExit;
 }

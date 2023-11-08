@@ -1,6 +1,9 @@
 package com.example.jocdedaus.model.services;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 import com.example.jocdedaus.model.domain.Game;
 import com.example.jocdedaus.model.domain.Player;
@@ -15,57 +18,69 @@ import com.example.jocdedaus.model.repositories.PlayerRepository;
 
 import lombok.AllArgsConstructor;
 
+@Service
 @AllArgsConstructor
-// @Service
-public class PlayerService implements IPlayerService{
+public class PlayerService {
 	
 	private PlayerRepository playerRepository;
 	private GameRepository gameRepository;
 
-	@Override
-	public void addPlayer(Player player) {
+	//	public void add(PlayerDTO pdto) {
+	//	Player player = PlayerMapper.toPlayer(pdto);		
+	//	playerRepository.save(player);		
+	//}
+	
+	
+	
+	//@Override
+	public void addPlayer(PlayerDTO pdto) {		
+		playerRepository.save(PlayerMapper.toPlayer(pdto));		
+	}
+	
+	//@Override
+	public void updatePlayer(String nom, PlayerDTO pdto) {
+		Player player = PlayerMapper.toPlayer(pdto);
+		player.setUsername(nom);
 		playerRepository.save(player);
 		
 	}
-
-	@Override
-	public void updatePlayer(Player player) {
-		playerRepository.save(player);
-		
+	
+	//@Override
+	public void playGame(Long id,GameDTO gameDTO) {
+		Game game = GameMapper.toGame(gameDTO);
+		Optional<Player> player = playerRepository.findById(id);
+		if (player.isPresent()) {
+			game.setPlayer(player.get());
+			gameRepository.save(game);
+		}		
 	}
-
-	@Override
-	public void addTirada(Long id,Game tirada) {
-		gameRepository.save(tirada);
-		
-	}
-
-	@Override
+	
+	//@Override
 	public void deleteTirades(Long id) {
 		gameRepository.deleteAllByPlayerId(id);
 		
 	}
-
-	@Override
+	
+	//@Override
 	public List<PlayerDTO> getAllPlayers() {
 		return playerRepository.findAll()
 				.stream().map(PlayerMapper::toDTO).toList();
 	}
-
-	@Override
+	
+	//@Override
 	public List<GameDTO> getAllTirades(Long playerId) {
 		
 		return gameRepository.findAllByPlayerId(playerId)
 				.stream().map(GameMapper::toDTO).toList();
 	}
-
-	@Override
+	
+	//@Override
 	public Double getPercentatgeMitja(Long id) {
 		
 		return null;
 	}
-
-	@Override
+	
+	//@Override
 	public Double getPercentatgeMitjaMitjor() {
 		List<Player> players = playerRepository.findAll();
 		List<Player> mitjors;
@@ -73,8 +88,8 @@ public class PlayerService implements IPlayerService{
 		
 		return null;
 	}
-
-	@Override
+	
+	//@Override
 	public Double getPercentatgeMitjaPitjor() {
 		
 		return null;
@@ -92,10 +107,27 @@ public class PlayerService implements IPlayerService{
 		}
 		return null;
 	}
-
+	
 	public List<GameDTO> getAllGames(Long playerId) {
+		
 		return gameRepository.findAllByPlayerId(playerId)
 				.stream().map(GameMapper::toDTO).toList();
+	}
+	
+	public List<String> getUsernames() {
+		
+		List<String> usernames = playerRepository.findAll()
+				.stream().map(p->p.getUsername()).toList();
+		return usernames;
+	}
+	
+	public PlayerDTO getPlayerDTO(Long id) {
+		
+		Optional<Player> p = playerRepository.findById(id);
+		if (p.isPresent()) {
+			return PlayerMapper.toDTO(p.get());
+		}
+		return null;
 	}
 
 }

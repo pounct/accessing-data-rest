@@ -9,6 +9,8 @@ import com.example.jocdedaus.model.domain.Game;
 
 @RepositoryRestResource(collectionResourceRel = "game", path = "game")
 public interface GameRepository extends JpaRepository<Game, Long>{
+	
+	//List<Game> findByPlayer(Player player);
 
 	List<Game> findAllByPlayerId(Long playerId);
 	void deleteAllByPlayerId(Long playerId);

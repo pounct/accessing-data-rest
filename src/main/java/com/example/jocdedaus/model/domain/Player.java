@@ -1,6 +1,7 @@
 package com.example.jocdedaus.model.domain;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -20,11 +21,9 @@ import lombok.ToString;
 public class Player {	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Default
-	private String username="ANÒNIM";	
-	private Date registrationDate;
+	private Long id;	
+	private String username;	
+	private LocalDate registrationDate;
 	@OneToMany
 	private List<Game> games;	
 }

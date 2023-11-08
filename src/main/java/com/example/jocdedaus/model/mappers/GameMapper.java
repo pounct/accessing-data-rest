@@ -8,10 +8,18 @@ public class GameMapper {
 	public static GameDTO toDTO(Game game) {
 
 		return GameDTO.builder()
-				.Id(game.getId())
+				.id(game.getId())
 				.dice1(game.getDice1())
 				.dice2(game.getDice2())
 				.won(game.won())
+				.build();
+	}
+
+	public static Game toGame(GameDTO gameDTO) {
+		return Game.builder()
+				.id(gameDTO.getId())
+				.dice1(gameDTO.getDice1())
+				.dice2(gameDTO.getDice2())
 				.build();
 	}
 

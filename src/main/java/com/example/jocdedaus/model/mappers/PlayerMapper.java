@@ -17,20 +17,11 @@ public class PlayerMapper {
 				//.percentatgedExit(player.percentatgedExit())
 				.build();
 	}
-
-//	public static Player fromDTO(PlayerDTO dto) {
-//
-//		return Player.builder()
-//				.id(dto.getId())
-//				.username(dto.getUsername())
-//				.registrationDate(dto.getRegistrationDate())
-//				.build();
-//	}
 	
 	public static Player toPlayer(PlayerDTO dto) {
 
 		return Player.builder()
-				//.id(dto.getId())
+				.id(dto.getId())
 				.username(dto.getUsername())
 				.registrationDate(dto.getRegistrationDate())
 				.build();
