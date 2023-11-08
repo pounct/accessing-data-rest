@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +18,9 @@ public class Game {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Byte dice1;
-	private Byte dice2;	
-	@ManyToOne
+	private Byte dice2;
+	
+	@ManyToOne(cascade=CascadeType.MERGE)
 	private Player player;
 	
 	public Boolean won() {

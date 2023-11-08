@@ -1,13 +1,10 @@
 package cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.Generated;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.Column;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,9 +25,9 @@ public class Player {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;	
-	private String username; // ANÒNIM
-	@ColumnDefault("CURRENT_TIMESTAMP")
-	private Date registrationDate;
-	@OneToMany
+	private String username;	
+	private LocalDate registrationDate;
+	
+	@OneToMany(cascade=CascadeType.MERGE)
 	private List<Game> games;
 }

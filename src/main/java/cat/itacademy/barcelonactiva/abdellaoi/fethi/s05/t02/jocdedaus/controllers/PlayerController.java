@@ -1,5 +1,6 @@
 package cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.domain.Player;
 import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.dto.GameDTO;
 import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.dto.PlayerDTO;
+import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.dto.PlayerDTOContext;
 import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.mappers.PlayerMapper;
 import cat.itacademy.barcelonactiva.abdellaoi.fethi.s05.t02.jocdedaus.model.services.PlayerService;
 import lombok.AllArgsConstructor;
@@ -35,33 +37,43 @@ public class PlayerController {
 //	}
 	
 	@PostMapping
-	public ResponseEntity<PlayerDTO> addPlayer(PlayerDTO playerDTO) {
+	public ResponseEntity<PlayerDTO> addPlayer(@RequestBody PlayerDTO playerDTO) {		
 		String username = playerDTO.getUsername();
 		List<String> usernames = playerService.getUsernames();
 		if(usernames.contains(username)) {
-			if (username != "ANÒNIM") {
+			if (!username.equalsIgnoreCase("ANÒNIM")) {
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}			
-		} else if (username==null || username == "") {
+			}
+		}
+		if (username==null || username == "") { 
 			playerDTO.setUsername("ANÒNIM");
 		}
-		
+		playerDTO.setRegistrationDate(LocalDate.now());
 		playerService.addPlayer(playerDTO);
 		return new ResponseEntity<>(playerDTO,HttpStatus.OK);
 	}
 
 	@PutMapping
-	public ResponseEntity<PlayerDTO> updatePlayer(String nom, PlayerDTO playerDTO) {
+	public ResponseEntity<PlayerDTO> updatePlayer(@RequestBody PlayerDTOContext playerDTOContext) {
+		PlayerDTO playerDTO = playerDTOContext.getPlayerDTO();
+		String newUsername = playerDTOContext.getNom();
 		PlayerDTO pdto = playerService.getPlayerDTO(playerDTO.getId());
+		
 		if (pdto == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		List<String> usernames = playerService.getUsernames();
-		if(usernames.contains(nom)) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
+		if(usernames.contains(newUsername)) {
+			if (!newUsername.equalsIgnoreCase("ANÒNIM")) {				
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);			
+			}			
 		}
-		playerService.updatePlayer(nom, playerDTO);
-		return new ResponseEntity<>(pdto, HttpStatus.OK);
+		if (newUsername==null || newUsername == "") { 
+			playerDTO.setUsername("ANÒNIM");
+		}
+		playerService.updatePlayer(newUsername, playerDTO);
+		return new ResponseEntity<>(playerDTO, HttpStatus.OK);
 		//
 	}
 	
